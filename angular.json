@@ -1,0 +1,124 @@
+{
+  "version": 1,
+  "projects": {
+    "yoga": {
+      "projectType": "application",
+      "root": "apps/yoga",
+      "sourceRoot": "apps/yoga/src",
+      "prefix": "zxdgoal.com",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/yoga",
+            "index": "apps/yoga/src/index.html",
+            "main": "apps/yoga/src/main.ts",
+            "polyfills": "apps/yoga/src/polyfills.ts",
+            "tsConfig": "apps/yoga/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/yoga/src/favicon.ico", "apps/yoga/src/assets"],
+            "styles": ["apps/yoga/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/yoga/src/environments/environment.ts",
+                  "with": "apps/yoga/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "yoga:build:production"
+            },
+            "development": {
+              "browserTarget": "yoga:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "yoga:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/yoga/src/**/*.ts",
+              "apps/yoga/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/yoga"],
+          "options": {
+            "jestConfig": "apps/yoga/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "yoga-e2e": {
+      "root": "apps/yoga-e2e",
+      "sourceRoot": "apps/yoga-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/yoga-e2e/cypress.json",
+            "devServerTarget": "yoga:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "yoga:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/yoga-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["yoga"]
+    }
+  }
+}
